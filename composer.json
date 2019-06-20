@@ -1,0 +1,17 @@
+{
+    "name": "developer/test2",
+    "authors": [
+        {
+            "name": "welldone",
+            "email": "welldoneism@gmail.com"
+        }
+    ],
+    "require": {
+        "phpoffice/phpspreadsheet": "^1.6"
+    },
+	"autoload": {
+		"psr-4": {
+			"App\\": "src/"
+		}
+	}
+}

@@ -1,0 +1,6 @@
+{
+    "request":"Daftar Payment Channel",
+    "merchant_id":"98765",
+    "merchant":"FASPAY STORE",
+    "signature":"e73f632e99308e424cac281b5d28c4cfc150e85b"
+}
