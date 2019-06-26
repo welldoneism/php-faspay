@@ -16,14 +16,15 @@ $userid = $config['user_id'];
 $password = $config['password'];
 $merchantCode = $config['merchant_code'];
 $merchantName = $config['merchant_name'];
-$signature = $config['signature'];
 $production = $config['production'];
-$expirationHours = $config['expiration_hours']; 
+$expirationHours = $config['expiration_hours'];
+
 
 $channel = (isset($_GET['channel'])) ? $_GET['channel'] : '0' ; 
 
-$fsp->faspay_init($userid,$password,$merchantCode,$merchantName,$signature,$production,$expirationHours);
+$fsp->faspay_init($userid,$password,$merchantCode,$merchantName,$production,$expirationHours);
 $url = $fsp->getPaymentUrl(); 
+
 
 $curr_date = $expirationHours;
 $exp = strtotime("+".$expirationHours." hours");
@@ -32,10 +33,14 @@ $exp_date=date('Y-m-d H:i:s',$exp);
 $trx_id=$_SESSION['trx_id'];
 $grand_total=$_SESSION['grand_total'];
 
+$signature = sha1(md5($userid.$password.$trx_id));
+
+$gtotal=$grand_total.'00';
+
 $data = array(
     "request"=>"Transmisi Info Detail Pembelian",
-    "merchant_id"=>"98765",
-    "merchant"=>"FASPAY",
+    "merchant_id"=>"$merchantCode",
+    "merchant"=>"$merchantName",
     "bill_no"=>"$trx_id",    
     "bill_date"=>$curr_date,
     "bill_expired"=>$exp_date,
@@ -43,7 +48,7 @@ $data = array(
     "bill_currency"=>"IDR",
     "bill_gross"=>"0",
     "bill_miscfee"=>"0",
-    "bill_total"=>"$grand_total",
+    "bill_total"=>"$gtotal",
     "cust_no"=>"12",
     "cust_name"=>"Test Trx",
     "payment_channel"=>$channel,
@@ -71,15 +76,16 @@ $data = array(
     "item"=>array(  
           "product"=>"Invoice No. inv-985/2017-03/1234567891",
           "qty"=>"1",
-          "amount"=>"$grand_total",
+          "amount"=>"$gtotal",
           "payment_plan"=>"01",
           "merchant_id"=>"99999",
           "tenor"=>"00"
         )
       ,
       
-      "signature"=>"5807a17ccd950904ec0a303725fa8a4b36c89e2f"
+      "signature"=>"$signature"
 );
+
 
 $data_result = $fsp->registerPayment($url,$data,false);
 

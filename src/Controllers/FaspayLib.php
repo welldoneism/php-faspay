@@ -10,15 +10,15 @@ class FaspayLib
     protected $merchantName;
     protected $signature;
     protected $production;
+    protected $bill_no;
     protected $expirationHours = 1;
     
-    public function faspay_init($userid, $password, $merchantCode, $merchantName,$signature, $production,$expirationHours)
+    public function faspay_init($userid, $password, $merchantCode, $merchantName, $production,$expirationHours)
     {
         $this->userid = $userid;
         $this->password = $password;
         $this->merchantCode = $merchantCode;
         $this->merchantName = $merchantName;
-        $this->signature = $signature;
         $this->production = $production;
         $this->expirationHours = $expirationHours;
     }
@@ -36,7 +36,7 @@ class FaspayLib
           'https://web.faspay.co.id/cvr/300011/10' :
           'https://dev.faspay.co.id/cvr/300011/10';
     }
-    
+         
     public function postData($url,$req)
     {
         $ch = curl_init($url);
@@ -87,9 +87,9 @@ class FaspayLib
     }                                                  
    
   
-    private function makeSignature($billNo)
-    {
-        return sha1(md5($this->userid . $this->password . $billNo));
+    public function makeSignature($userid,$password,$billNo)
+    {   
+        return sha1(md5($userid . $password . $billNo));
     }
     
 }
