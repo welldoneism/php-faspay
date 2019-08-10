@@ -27,7 +27,7 @@ $fsp = new FaspayLib;
 
  <form method="post" action="get_debit_channel.php" target="_blank">
   Trx.ID:<br>
-  <input type="text" name="trx_id" value="98765123456789" readonly="readonly"><br>
+  <input type="text" name="trx_id" value="233850" readonly="readonly"><br>
   Grand Total:<br>
   <input type="text" name="grand_total" value="45000" readonly="readonly">
   <br>
